@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MessageController {
 
-    @Autowired
+    @Autowired //it provides to send message to user
     private SimpMessagingTemplate simpMessagingTemplate;
 
     @MessageMapping("/chat/{to}")               //saving message model
     public void sendMessage(@DestinationVariable String to, MessageModel message) {
         System.out.println("handling send message: " + message + " to: " + to);
         boolean isExists = UserStorage.getInstance().getUsers().contains(to);
-        if (isExists) {
+        if (isExists) {// send message to user
             simpMessagingTemplate.convertAndSend("/topic/messages/" + to, message);
         }
     }
