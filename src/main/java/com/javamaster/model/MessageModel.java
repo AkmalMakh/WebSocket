@@ -3,7 +3,16 @@ package com.javamaster.model;
 public class MessageModel {
 
     private String message;
-    private String fromLogin;
+    private String senderName;
+    private String createdAt;
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public String getMessage() {
         return message;
@@ -13,19 +22,20 @@ public class MessageModel {
         this.message = message;
     }
 
-    public String getFromLogin() {
-        return fromLogin;
+    public String getSenderName() {
+        return senderName;
     }
 
-    public void setFromLogin(String fromLogin) {
-        this.fromLogin = fromLogin;
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
     }
 
     @Override
     public String toString() {
         return "MessageModel{" +
                 "message='" + message + '\'' +
-                ", fromLogin='" + fromLogin + '\'' +
+                ", senderName='" + senderName + '\'' +
+                ", createdAt='" + createdAt + '\'' +
                 '}';
     }
 }

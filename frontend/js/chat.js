@@ -10,21 +10,23 @@ function connectToChat(userName) {
     stompClient.connect({}, function (frame) {
         console.log("connected to: " + frame);
         stompClient.subscribe("/topic/messages/" + userName, function (response) {
-            let data = JSON.parse(response.body);
-            if (selectedUser === data.fromLogin) {
-                render(data.message, data.fromLogin);
+            let data = JSON.parse(response.body); // getting name
+            if (selectedUser === data.senderName) {
+                render(data.message, data.senderName); // razdelyaet Json
             } else {
-                newMessages.set(data.fromLogin, data.message);
-                $('#userNameAppender_' + data.fromLogin).append('<span id="newMessage_' + data.fromLogin + '" style="color: #ff0000">+1</span>');
+                newMessages.set(data.senderName, data.message);
+                $('#userNameAppender_' + data.senderName).append('<span id="newMessage_' + data.senderName + '" style="color: #ff0000">+1</span>');
             }
         });
     });
 }
 
-function sendMsg(from, text) {              //selected user = name and obj message and from
+function sendMsg(from, text ) {              //selected user = name and obj message and from
     stompClient.send("/app/chat/" + selectedUser, {}, JSON.stringify({
-        fromLogin: from,
-        message: text
+        senderName: from,
+        message: text,
+        createdAt: new Date()
+
     }));
 }
 
