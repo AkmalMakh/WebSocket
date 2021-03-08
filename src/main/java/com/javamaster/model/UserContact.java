@@ -4,13 +4,15 @@ package com.javamaster.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "userContact")
 public class UserContact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.DETACH , CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH})
     private User user;
 
 

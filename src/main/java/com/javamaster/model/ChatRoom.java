@@ -4,19 +4,25 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@Table(name = "ChatRoom")
 public class ChatRoom {
 
 
-    @javax.persistence.Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "message")
+    @OneToMany(mappedBy = "chatRoom",
+                    cascade = {CascadeType.DETACH , CascadeType.MERGE,
+                            CascadeType.PERSIST, CascadeType.REFRESH})
     private Set<ChatMessage> chatMessages;
 
 
+    @ManyToOne(cascade = {CascadeType.DETACH , CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH})
+    private User user;
 
-    private String id;
+
 
     private String chatId;
 
@@ -32,9 +38,6 @@ public class ChatRoom {
         return Id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getChatId() {
         return chatId;
@@ -70,5 +73,21 @@ public class ChatRoom {
 
     public void setChatMessages(Set<ChatMessage> chatMessages) {
         this.chatMessages = chatMessages;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+    // add convenience method for bi-directional relationship
+
+    public void addMessages(ChatMessage chatMessage){
+        if(chatMessage == null){
+            chatMessage  = new ChatMessage();
+        }
+        chatMessage.setChatRoom(this);
     }
 }

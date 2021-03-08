@@ -4,13 +4,16 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class ChatMessage {
+@Table(name = "Message")
+public class ChatMessage { // Messages of chat
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.DETACH , CascadeType.MERGE,
+                          CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "chatRoom_Id")
     private ChatRoom chatRoom;
 
 
