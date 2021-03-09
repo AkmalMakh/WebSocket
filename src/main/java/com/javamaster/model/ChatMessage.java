@@ -4,31 +4,43 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "Message")
+@Table(name = "message")
 public class ChatMessage { // Messages of chat
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long Id;
 
     @ManyToOne(cascade = {CascadeType.DETACH , CascadeType.MERGE,
                           CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "chatRoom_Id")
+    @JoinColumn(name = "chat_room_id")
     private ChatRoom chatRoom;
 
 
+    @Column(name = "message_id")
+    private String messageId;
+
+    @Column(name = "chat_id")
     private String chatId;
 
+
+    @Column(name = "sender_id")
     private String senderId;
 
+    @Column(name = "receiver_id")
     private String receiverId;
 
+    @Column(name = "sender_name")
     private String senderName;
 
+    @Column(name = "receiver_name")
     private String receiverName;
 
+    @Column(name = "message_text")
     private String messageText;
 
+    @Column(name = "created_at")
     private Date timestamp;
 
     public ChatMessage() {
@@ -45,12 +57,12 @@ public class ChatMessage { // Messages of chat
 
 
 
-    public String getChatId() {
-        return chatId;
+    public String getMessageId() {
+        return messageId;
     }
 
-    public void setChatId(String chatId) {
-        this.chatId = chatId;
+    public void setMessageId(String chatId) {
+        this.messageId = chatId;
     }
 
     public String getSenderId() {
@@ -107,5 +119,29 @@ public class ChatMessage { // Messages of chat
 
     public void setChatRoom(ChatRoom chatRoom) {
         this.chatRoom = chatRoom;
+    }
+
+    public String getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(String chatId) {
+        this.chatId = chatId;
+    }
+
+    @Override
+    public String toString() {
+        return "ChatMessage{" +
+                "Id=" + Id +
+                ", chatRoom=" + chatRoom +
+                ", messageId='" + messageId + '\'' +
+                ", chatId='" + chatId + '\'' +
+                ", senderId='" + senderId + '\'' +
+                ", receiverId='" + receiverId + '\'' +
+                ", senderName='" + senderName + '\'' +
+                ", receiverName='" + receiverName + '\'' +
+                ", messageText='" + messageText + '\'' +
+                ", timestamp=" + timestamp +
+                '}';
     }
 }

@@ -10,9 +10,9 @@ function connectToChat(userName) {
     stompClient.connect({}, function (frame) {
         console.log("connected to: " + frame);
         stompClient.subscribe("/topic/messages/" + userName, function (response) {
-            let data = JSON.parse(response.body); // getting name
+            let data = JSON.parse(response.body); // getting json body
             if (selectedUser === data.senderName) {
-                render(data.message, data.senderName); // razdelyaet Json
+                render(data.message, data.senderName); // split Json body
             } else {
                 newMessages.set(data.senderName, data.message);
                 $('#userNameAppender_' + data.senderName).append('<span id="newMessage_' + data.senderName + '" style="color: #ff0000">+1</span>');

@@ -4,23 +4,32 @@ package com.javamaster.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "userContact")
+@Table(name = "contact")
 public class UserContact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long Id;
 
     @ManyToOne(cascade = {CascadeType.DETACH , CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH})
     private User user;
 
-
+    @Column(name = "contact_id")
     private String contactId;
-    private String status;
+
+
+    @Column(name = "contact_name")
     private String contactName;
+
+    @Column(name = "contact_picture")
     private String profilePicture;
+
+    @Column(name = "is_active")
     private boolean isActive;
+
+    @Column(name = "created_at")
     private String CreatedAt;
 
     public UserContact() {
@@ -51,13 +60,7 @@ public class UserContact {
         this.contactId = contactId;
     }
 
-    public String getStatus() {
-        return status;
-    }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     public String getContactName() {
         return contactName;
@@ -89,5 +92,18 @@ public class UserContact {
 
     public void setCreatedAt(String createdAt) {
         CreatedAt = createdAt;
+    }
+
+    @Override
+    public String toString() {
+        return "UserContact{" +
+                "Id=" + Id +
+                ", user=" + user +
+                ", contactId='" + contactId + '\'' +
+                ", contactName='" + contactName + '\'' +
+                ", profilePicture='" + profilePicture + '\'' +
+                ", isActive=" + isActive +
+                ", CreatedAt='" + CreatedAt + '\'' +
+                '}';
     }
 }

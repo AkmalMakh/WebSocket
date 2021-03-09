@@ -4,12 +4,13 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "ChatRoom")
+@Table(name = "chatroom")
 public class ChatRoom {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long Id;
 
     @OneToMany(mappedBy = "chatRoom",
@@ -23,12 +24,17 @@ public class ChatRoom {
     private User user;
 
 
-
+    @Column(name = "chat_id")
     private String chatId;
 
+    @Column(name = "sender_id")
     private String senderId;
 
+    @Column(name = "receiver_id")
     private String receiverId;
+
+    @Column(name = "created_at")
+    private String createdAt;
 
     public ChatRoom() {
 
@@ -67,6 +73,14 @@ public class ChatRoom {
         Id = id;
     }
 
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public Set<ChatMessage> getChatMessages() {
         return chatMessages;
     }
@@ -89,5 +103,18 @@ public class ChatRoom {
             chatMessage  = new ChatMessage();
         }
         chatMessage.setChatRoom(this);
+    }
+
+    @Override
+    public String toString() {
+        return "ChatRoom{" +
+                "Id=" + Id +
+                ", chatMessages=" + chatMessages +
+                ", user=" + user +
+                ", chatId='" + chatId + '\'' +
+                ", senderId='" + senderId + '\'' +
+                ", receiverId='" + receiverId + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                '}';
     }
 }
