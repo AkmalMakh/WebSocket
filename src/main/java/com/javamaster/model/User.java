@@ -1,6 +1,8 @@
 package com.javamaster.model;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -14,15 +16,16 @@ public class User {
     private Long Id;
 
     @OneToMany(fetch = FetchType.EAGER,cascade = {CascadeType.DETACH , CascadeType.MERGE,
-            CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "user")
+            CascadeType.PERSIST, CascadeType.REFRESH,CascadeType.REMOVE}, mappedBy = "user")
+    @JsonManagedReference
     private Set<UserContact>userContacts;
 
     @OneToMany(fetch = FetchType.EAGER,cascade = {CascadeType.DETACH , CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "user")
+    @JsonManagedReference
     private Set<ChatRoom>chatRooms;
 
-    @Column(name = "user_id")
-    private String userId;
+
 
     @Column(name = "user_name")
     private String userName;
@@ -48,10 +51,9 @@ public class User {
 
     }
 
-    public User(Set<UserContact> userContacts, Set<ChatRoom> chatRooms, String userId, String userName, String userEmail, String passwaord, String createdAt, String userProfilePicture, boolean isActive) {
+    public User(Set<UserContact> userContacts, Set<ChatRoom> chatRooms, String userName, String userEmail, String passwaord, String createdAt, String userProfilePicture, boolean isActive) {
         this.userContacts = userContacts;
         this.chatRooms = chatRooms;
-        this.userId = userId;
         this.userName = userName;
         this.userEmail = userEmail;
         this.passwaord = passwaord;
@@ -76,13 +78,7 @@ public class User {
         this.userContacts = userContacts;
     }
 
-    public String getUserId() {
-        return userId;
-    }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 
     public String getPasswaord() {
         return passwaord;
@@ -146,7 +142,6 @@ public class User {
                 "Id=" + Id +
                 ", userContacts=" + userContacts +
                 ", chatRooms=" + chatRooms +
-                ", userId='" + userId + '\'' +
                 ", userName='" + userName + '\'' +
                 ", userEmail='" + userEmail + '\'' +
                 ", passwaord='" + passwaord + '\'' +
@@ -169,5 +164,11 @@ public class User {
         }
         userCont.setUser(this);
 
+    }
+    public void deleteContact(UserContact userContact){
+       this.userContacts.remove(userContact);
+    }
+    public void deleteChatRoom(ChatRoom chatRoom){
+        this.chatRooms.remove(chatRoom);
     }
 }

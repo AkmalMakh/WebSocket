@@ -1,5 +1,8 @@
 package com.javamaster.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -16,17 +19,18 @@ public class ChatRoom {
     @OneToMany(mappedBy = "chatRoom",
                     cascade = {CascadeType.DETACH , CascadeType.MERGE,
                             CascadeType.PERSIST, CascadeType.REFRESH})
+    @JsonManagedReference
     private Set<ChatMessage> chatMessages;
 
 
     @ManyToOne(cascade = {CascadeType.DETACH , CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 
 
-    @Column(name = "chat_id")
-    private String chatId;
+
 
     @Column(name = "sender_id")
     private String senderId;
@@ -46,13 +50,6 @@ public class ChatRoom {
     }
 
 
-    public String getChatId() {
-        return chatId;
-    }
-
-    public void setChatId(String chatId) {
-        this.chatId = chatId;
-    }
 
     public String getSenderId() {
         return senderId;
@@ -112,10 +109,13 @@ public class ChatRoom {
                 "Id=" + Id +
                 ", chatMessages=" + chatMessages +
                 ", user=" + user +
-                ", chatId='" + chatId + '\'' +
                 ", senderId='" + senderId + '\'' +
                 ", receiverId='" + receiverId + '\'' +
                 ", createdAt='" + createdAt + '\'' +
                 '}';
     }
+    public void deleteMessage(ChatMessage chatMessage){
+        this.chatMessages.remove(chatMessage);
+    }
+
 }

@@ -1,5 +1,8 @@
 package com.javamaster.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -15,14 +18,10 @@ public class ChatMessage { // Messages of chat
     @ManyToOne(cascade = {CascadeType.DETACH , CascadeType.MERGE,
                           CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "chat_room_id")
+    @JsonBackReference
     private ChatRoom chatRoom;
 
 
-    @Column(name = "message_id")
-    private String messageId;
-
-    @Column(name = "chat_id")
-    private String chatId;
 
 
     @Column(name = "sender_id")
@@ -41,7 +40,7 @@ public class ChatMessage { // Messages of chat
     private String messageText;
 
     @Column(name = "created_at")
-    private Date timestamp;
+    private String timestamp;
 
     public ChatMessage() {
 
@@ -57,13 +56,7 @@ public class ChatMessage { // Messages of chat
 
 
 
-    public String getMessageId() {
-        return messageId;
-    }
 
-    public void setMessageId(String chatId) {
-        this.messageId = chatId;
-    }
 
     public String getSenderId() {
         return senderId;
@@ -105,11 +98,11 @@ public class ChatMessage { // Messages of chat
         this.messageText = messageText;
     }
 
-    public Date getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -121,21 +114,13 @@ public class ChatMessage { // Messages of chat
         this.chatRoom = chatRoom;
     }
 
-    public String getChatId() {
-        return chatId;
-    }
 
-    public void setChatId(String chatId) {
-        this.chatId = chatId;
-    }
 
     @Override
     public String toString() {
         return "ChatMessage{" +
                 "Id=" + Id +
                 ", chatRoom=" + chatRoom +
-                ", messageId='" + messageId + '\'' +
-                ", chatId='" + chatId + '\'' +
                 ", senderId='" + senderId + '\'' +
                 ", receiverId='" + receiverId + '\'' +
                 ", senderName='" + senderName + '\'' +

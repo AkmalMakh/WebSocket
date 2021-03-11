@@ -1,11 +1,13 @@
 package com.javamaster.controller;
 
 import com.javamaster.model.User;
+import com.javamaster.model.UserContact;
+import com.javamaster.service.contactsService.ContactService;
 import com.javamaster.service.userService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+
 import java.util.Set;
 
 
@@ -15,9 +17,12 @@ public class UserRestController {
 
     private UserService userService;
 
+    private ContactService contactService;
+
     @Autowired
-    public UserRestController(UserService userService) {
+    public UserRestController(UserService userService, ContactService contactService) {
         this.userService = userService;
+        this.contactService = contactService;
     }
 
     @GetMapping("/users")
@@ -26,8 +31,8 @@ public class UserRestController {
     }
 
     @GetMapping("/users/{userId}")
-    public Optional<User> getSingleUser(@PathVariable int userId){
-        Optional<User> user = userService.findById(new Long(userId));
+    public User getSingleUser(@PathVariable int userId){
+        User user = userService.findById(new Long(userId));
 
         if(user == null){
             throw new RuntimeException("User id not found - "+ userId);
@@ -52,7 +57,7 @@ public class UserRestController {
 
         @DeleteMapping("users/{userId}")
     public String deleteEmployee(@PathVariable int userId){
-        Optional<User> theUser = userService.findById(new Long(userId));
+        User theUser = userService.findById(new Long(userId));
         if(theUser == null){
             throw new RuntimeException("User is not found"+ userId);
 
@@ -61,6 +66,9 @@ public class UserRestController {
              return "Deleted user id - "+userId;
 
         }
+
+
+
 
 
 }
